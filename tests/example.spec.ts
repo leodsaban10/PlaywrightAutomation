@@ -23,37 +23,17 @@ test('login with invalid credentials', async ({ page }) => {
 });
 
 test('secure checkout', async ({page}) => {
-  // Login first
   await loginWithValidCredentials(page);
-  
-  // Add first item to cart
   await page.getByRole('button', { name: 'Add to cart' }).first().click();
-  
-  // Go to cart
-  await page.getByTestId('shopping_cart_link').click();
-  
-  // Verify item is in cart
+  await page.locator('[data-test="shopping-cart-link"]').click();
   await expect(page.getByText('Sauce Labs Backpack')).toBeVisible();
-  
-  // Start checkout process
-  await page.getByTestId('checkout').click();
-  
-  // Fill checkout information
-  await page.getByTestId('firstName').fill('John');
-  await page.getByTestId('lastName').fill('Doe');
-  await page.getByTestId('postalCode').fill('12345');
-  
-  // Continue to overview
-  await page.getByTestId('continue').click();
-  
-  // Verify we're on the overview page
+  await page.getByRole('button', { name: 'Checkout' }).click();
+  await page.getByPlaceholder('First Name').fill('John');
+  await page.getByPlaceholder('Last Name').fill('Doe');
+  await page.getByPlaceholder('Zip/Postal Code').fill('12345');
+  await page.getByRole('button', { name: 'Continue' }).click();
   await expect(page.getByText('Checkout: Overview')).toBeVisible();
-  
-  // Complete purchase
-  await page.getByTestId('finish').click();
-  
-  // Verify order completion
+  await page.getByRole('button', { name: 'Finish' }).click();
   await expect(page.getByText('Thank you for your order!')).toBeVisible();
 });
-
 
