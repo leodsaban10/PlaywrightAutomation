@@ -41,4 +41,5 @@ test('Accurate product information', async ({page}) => {
   await loginWithValidCredentials(page);
   await page.getByText('Sauce Labs Backpack').click();
   await expect(page.getByText('Sauce Labs Backpack')).toBeVisible();
+  await expect(page.getByAltText('Sauce Labs Backpack')).toBeVisible();
 });
