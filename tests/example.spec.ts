@@ -22,7 +22,7 @@ test('login with invalid credentials', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
 });
 
-test('secure checkout', async ({page}) => {
+test('Add to cart and secure checkout', async ({page}) => {
   await loginWithValidCredentials(page);
   await page.getByRole('button', { name: 'Add to cart' }).first().click();
   await page.locator('[data-test="shopping-cart-link"]').click();
@@ -37,3 +37,8 @@ test('secure checkout', async ({page}) => {
   await expect(page.getByText('Thank you for your order!')).toBeVisible();
 });
 
+test('Accurate product information', async ({page}) => {
+  await loginWithValidCredentials(page);
+  await page.getByText('Sauce Labs Backpack').click();
+  await expect(page.getByText('Sauce Labs Backpack')).toBeVisible();
+});
