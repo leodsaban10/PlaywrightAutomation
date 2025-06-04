@@ -43,3 +43,11 @@ test('Accurate product information', async ({page}) => {
   await expect(page.getByText('Sauce Labs Backpack')).toBeVisible();
   await expect(page.getByAltText('Sauce Labs Backpack')).toBeVisible();
 });
+
+test('App works on other devices', async ({page}) => {
+  await page.goto("http://www.responsinator.com/");
+  await page.locator('//*[@id="url"]').fill('https://www.saucedemo.com/');
+  await page.locator('//*[@id="go entered-website"]').click();
+  await expect(page.locator('//*[@id="root"]')).toHaveText('Swag Labs');
+});
+
